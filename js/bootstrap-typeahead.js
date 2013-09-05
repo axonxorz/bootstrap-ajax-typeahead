@@ -18,7 +18,7 @@
  * ============================================================ */
 
 /*
- * Modifications by Paul Warelis, Alexey Gordeyev
+ * Modifications by Paul Warelis, Alexey Gordeyev, Brendan Zerr
  */
 
 !function($){
@@ -98,11 +98,13 @@
             var $selectedItem = this.$menu.find('.active');
             var value = $selectedItem.attr('data-value');
             var text = this.$menu.find('.active a').text();
+            var item = $selectedItem.data('item');
 
             if (this.options.onSelect) {
                 this.options.onSelect({
                     value: value,
-                    text: text
+                    text: text,
+                    item: item
                 });
             }
             this.$element
@@ -264,6 +266,7 @@
             items = $(items).map(function (i, item) {
                 display = isString ? item[that.options.display] : that.options.display(item);
                 i = $(that.options.item).attr('data-value', item[that.options.val]);
+                i.data('item', item);
                 i.find('a').html(that.highlighter(display));
                 return i[0];
             });
@@ -435,7 +438,7 @@
 
     $.fn.typeahead.defaults = {
         source: [],
-        items: 8,
+        items: 20,
         menu: '<ul class="typeahead dropdown-menu"></ul>',
         item: '<li><a href="#"></a></li>',
         display: 'name',
